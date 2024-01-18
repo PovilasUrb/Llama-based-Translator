@@ -6,24 +6,24 @@
 
 1. **Flask GUI (Grafinei Vartotojo Sąsajai):** Ši dalis yra atsakinga už vartotojo sąsają, kurioje galima įvesti tekstą, pasirinkti šaltinio ir tikslinę kalbas bei gauti vertimo rezultatą.
 
-2. **Vertimo Serveris:** Atskira serverio aplikacija, kuri priima HTTP POST užklausas iš Flask GUI, atlieka vertimą naudojant lokalų `Llama2-13b-Language-translate` modelį ir grąžina vertimo rezultatą.
+2. **Vertimo Serveris:** Atskira serverio aplikacija, kuri priima HTTP POST užklausas iš Flask GUI, atlieka vertimą naudojant lokalų `SnypzZz/Llama2-13b-Language-translate` modelį ir grąžina vertimo rezultatą.
 
 ## Kaip tai veikia
 
 - Vartotojas naudoja Flask GUI įveda tekstą ir pasirenka šaltinio bei tikslinę kalbas.
 - Flask GUI siunčia HTTP POST užklausą į vertimo serverį su tekstu ir kalbų informacija.
-- Vertimo serveris gauna užklausą, naudoja `Llama2-13b-Language-translate` modelį teksto vertimui ir grąžina išverstą tekstą atgal į Flask GUI.
+- Vertimo serveris gauna užklausą, naudoja `SnypzZz/Llama2-13b-Language-translate` modelį teksto vertimui ir grąžina išverstą tekstą atgal į Flask GUI.
 - Flask GUI pateikia vertimo rezultatą vartotojui.
 
 ## Technologijos
 
 - **Backend:** Flask, FastAPI
 - **Frontend:** HTML, JavaScript, CSS
-- **Vertimo Modelis:** Hugging Face `transformers`
+- **Vertimo Modelis:** Hugging Face `SnypzZz/Llama2-13b-Language-translate`
 
 ## Lokalus Modelio Naudotojimas
 
-`Llama2-13b-Language-translate` modelis atsisiunčiamas ir naudojamas lokaliai. Tai leidžia užtikrinti greitesnį atsako laiką ir nepriklausomybę nuo išorinių API.
+`SnypzZz/Llama2-13b-Language-translate` modelis atsisiunčiamas ir naudojamas lokaliai. Tai leidžia užtikrinti greitesnį atsako laiką ir nepriklausomybę nuo išorinių API.
 
 ## Paleidimas
 
