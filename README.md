@@ -46,10 +46,3 @@ Norėdami paleisti šią sistemą:
    python3 app.py
    ```
 
-## Licencija
-
-[MIT](LICENSE) - ši licencija leidžia laisvai naudoti, kopijuoti, keisti ir platinti šį projektą. 
-
----
-
-Projektas sukurtas siekiant suteikti efektyvų ir patogų būdą atlikti teksto vertimus naudojant šiuolaikines technologijas ir modelius. Jis gali būti naudojamas kaip mokymosi priemonė arba kaip pagrindas tolesnei plėtrai ir pritaikymui individualiems poreikiams.
