@@ -1,24 +1,23 @@
-# Vertimo Sistema Su Flask ir Hugging Face
+# Simple translation System Using Flask and a local Llama model
 
-## Apie projektą
+## About the Project
 
-Šis projektas yra dviejų dalių vertimo sistema, kuri naudoja Flask GUI (grafinei vartotojo sąsajai) ir atskirą vertimo serverį. Vertimo serveris naudoja Hugging Face `transformers` biblioteką ir `SnypzZz/Llama2-13b-Language-translate` modelį lokaliam teksto vertimui. Sistemą sudaro du pagrindiniai komponentai:
+This project is a two-part translation system that uses a Flask GUI (Graphical User Interface) and a separate translation server. The translation server utilizes the Hugging Face `transformers` library and the `SnypzZz/Llama2-13b-Language-translate` model for local text translation. The system comprises two main components:
 
-1. **Flask GUI (Grafinei Vartotojo Sąsajai):** Ši dalis yra atsakinga už vartotojo sąsają, kurioje galima įvesti tekstą, pasirinkti šaltinio ir tikslinę kalbas bei gauti vertimo rezultatą.
+1. **Flask GUI (Graphical User Interface):** This part is responsible for the user interface where users can input text, select source and target languages, and receive the translation result.
+2. **Translation Server:** A separate server application that accepts HTTP POST requests from the Flask GUI, performs the translation using the local `SnypzZz/Llama2-13b-Language-translate` model, and returns the translation result.
 
-2. **Vertimo Serveris:** Atskira serverio aplikacija, kuri priima HTTP POST užklausas iš Flask GUI, atlieka vertimą naudojant lokalų `SnypzZz/Llama2-13b-Language-translate` modelį ir grąžina vertimo rezultatą.
-
-## Veikimo Principas ir Komunikacija per HTTP
+## Operation Principle and HTTP Communication
 
 ### Flask GUI
 
-Flask aplikacija yra vartotojo sąsaja, kurioje galima įvesti tekstą vertimui, pasirinkti šaltinio ir tikslinę kalbas. Ji yra sukurta naudojant HTML, CSS ir JavaScript, leidžianti patogų ir intuityvų vartotojo patirtį.
+The Flask application serves as the user interface, where users can input text for translation and select source and target languages. It is built using HTML, CSS, and JavaScript, providing a convenient and intuitive user experience.
 
-Kai vartotojas įveda tekstą ir paspaudžia "Versti", JavaScript funkcija yra iškviečiama, kuri siunčia HTTP POST užklausą į vertimo serverį. Ši užklausa perduoda tekstą ir kalbų pasirinkimus JSON formatu.
+When a user inputs text and clicks "Translate," a JavaScript function is called, which sends an HTTP POST request to the translation server. This request transmits the text and language selections in JSON format.
 
-### HTTP POST Užklausa
+### HTTP POST Request
 
-HTTP POST užklausa yra suformuojama ir išsiunčiama naudojant JavaScript `fetch` funkciją. Ši funkcija siunčia užklausą į nurodytą URL, šiuo atveju vertimo serverio adresą, su reikalingais duomenimis:
+The HTTP POST request is formed and sent using the JavaScript `fetch` function. This function sends the request to the specified URL, in this case, the translation server's address, with the necessary data:
 
 ```javascript
 fetch('/translate', {
@@ -34,11 +33,11 @@ fetch('/translate', {
 })
 ```
 
-### Vertimo Serveris
+### Translation Server
 
-Vertimo serveris, sukuriamas naudojant FastAPI, yra atskiras procesas, kuris klausosi HTTP POST užklausų. Kai serveris gauna užklausą iš Flask GUI, jis išanalizuoja JSON duomenis, atlieka vertimą naudodamas Hugging Face `transformers` biblioteką ir lokalų `SnypzZz/Llama2-13b-Language-translate` modelį.
+The translation server, created using FastAPI, is a separate process that listens for HTTP POST requests. When the server receives a request from the Flask GUI, it parses the JSON data, performs the translation using the Hugging Face `transformers` library and the local `SnypzZz/Llama2-13b-Language-translate` model.
 
-FastAPI serveris priima tekstą ir kalbų kodus, atlieka vertimą ir grąžina išverstą tekstą atgal į Flask GUI kaip HTTP atsakymą:
+The FastAPI server accepts the text and language codes, performs the translation, and returns the translated text back to the Flask GUI as an HTTP response:
 
 ```python
 @app.post("/translate")
@@ -47,9 +46,9 @@ async def translate(request: TranslationRequest):
     return {"translated_text": translated_text}
 ```
 
-### Duomenų Grąžinimas į Flask GUI
+### Data Return to Flask GUI
 
-Kai vertimo serveris grąžina atsakymą, JavaScript funkcija `fetch` gauna šį atsakymą ir atnaujina vartotojo sąsają, rodydama išverstą tekstą. Tai vyksta asinchroniškai, todėl vartotojo sąsaja lieka atsako laukimo metu reaktyvi.
+When the translation server returns a response, the JavaScript `fetch` function receives this response and updates the user interface to display the translated text. This occurs asynchronously, ensuring the user interface remains responsive while waiting for the response.
 
 ```javascript
 .then(data => {
@@ -57,41 +56,41 @@ Kai vertimo serveris grąžina atsakymą, JavaScript funkcija `fetch` gauna šį
 })
 ```
 
-### Komunikacijos Schema
+### Communication Scheme
 
-1. **Flask GUI → Vertimo Serveris:** Vartotojas įveda tekstą ir paspaudžia "Versti". Flask GUI siunčia HTTP POST užklausą su tekstu ir kalbų kodais į vertimo serverį.
-2. **Vertimo Serveris → Flask GUI:** Vertimo serveris apdoroja užklausą, atlieka vertimą ir siunčia atsakymą atgal į Flask GUI.
-3. **Rezultatų Atvaizdavimas:** Flask GUI gauna atsakymą ir atvaizduoja išverstą tekstą vartotojui.
+1. **Flask GUI → Translation Server:** The user inputs text and clicks "Translate." The Flask GUI sends an HTTP POST request with the text and language codes to the translation server.
+2. **Translation Server → Flask GUI:** The translation server processes the request, performs the translation, and sends the response back to the Flask GUI.
+3. **Result Display:** The Flask GUI receives the response and displays the translated text to the user.
 
-Ši komunikacija per HTTP užtikrina, kad duomenų mainai tarp Flask GUI ir vertimo serverio yra greiti, efektyvūs ir saugūs. Taip pat suteikia lankstumą tolesnei sistemos plėtrai ir integravimui.
-## Technologijos
+This HTTP communication ensures that data exchanges between the Flask GUI and the translation server are fast, efficient, and secure. It also provides flexibility for further system development and integration.
+
+## Technologies
 
 - **Backend:** Flask, FastAPI
 - **Frontend:** HTML, JavaScript, CSS
-- **Vertimo Modelis:** Hugging Face `SnypzZz/Llama2-13b-Language-translate`
+- **Translation Model:** Hugging Face `SnypzZz/Llama2-13b-Language-translate`
 
-## Lokalus Modelio Naudotojimas
+## Using the Local Model
 
-`SnypzZz/Llama2-13b-Language-translate` modelis atsisiunčiamas ir naudojamas lokaliai. Tai leidžia užtikrinti greitesnį atsako laiką ir nepriklausomybę nuo išorinių API.
+The `SnypzZz/Llama2-13b-Language-translate` model is downloaded and used locally. This ensures faster response times and independence from external APIs.
 
-## Paleidimas
+## Running the System
 
-Norėdami paleisti šią sistemą:
-1. Sukurkite nauja virtualu environmenta.
+To run this system:
+1. Create a new virtual environment.
    ```bash
    python3 -m venv venv
    source venv/bin/activate
    ```
-2. Įdiekite visas reikalingas bibliotekas.
+2. Install all required libraries.
    ```bash
    pip install -r requirements.txt
    ```
-3. Paleiskite `translator.py`.
+3. Start the translation server.
    ```bash
    python3 translator.py
    ```
-4. Paleiskite `main.py` Flask aplikaciją.
+4. Start the Flask application.
    ```bash
    python3 app.py
    ```
-
